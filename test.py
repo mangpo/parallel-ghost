@@ -14,7 +14,7 @@ result, resources = ghost.evaluate ('document.title')
 print "----------- RESULT -------------"
 print result
 # result, resources = ghost.evaluate ('document.getElementById(\'main\').children[0]') 
-result, resources = ghost.evaluate ('document.getElementsByClassName(\'subscribe\')')
+result, resources = ghost.evaluate ('document.getElementsByClassName(\'subscribe\')[0]')
 print "----------- RESULT -------------"
 print result
 
