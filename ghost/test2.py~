@@ -1,0 +1,5 @@
+from ghost import Ghost
+
+ghost = Ghost()
+page, resources = ghost.open('http://www.eecs.berkeley.edu/~mangpo/www/home.html')
+inp = open('foo.js', 'r')
