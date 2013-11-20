@@ -1,16 +1,25 @@
-import csv
-import subprocess, os
+import csv, subprocess, os
+import onesite
 
+parallel = False
 input_file = "input.csv"
-output_file = "output.out"
+output_file = "output.csv"
 js_func = "foo"
 
 inputs = csv.reader(open(input_file, 'rb'), delimiter=';')
-os.system("rm " + output_file)
 
-procs = []
-for row in inputs:
-  procs.append(subprocess.Popen(["python", "onesite.py", js_func, output_file] + row))
+f = open(output_file, 'w')
+f.write(';'.join(["title", "start-up", "load", "read-js-file", "execuate"]) + '\n')
+f.close()
 
-for proc in procs:
-  result = proc.wait()
+if parallel:
+  procs = []
+  for row in inputs:
+    procs.append(subprocess.Popen(["python", "onesite.py", js_func, output_file] + row))
+
+  for proc in procs:
+    result = proc.wait()
+
+else:
+  for row in inputs:
+    onesite.main([js_func, output_file] + row)
