@@ -1,8 +1,8 @@
 import csv, subprocess, os
 import onesite
 
-parallel = True
-input_file = "input.csv"
+parallel = False
+input_file = "../input.csv"
 output_file = "output.csv"
 js_func = "foo"
 

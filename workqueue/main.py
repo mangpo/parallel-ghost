@@ -43,18 +43,22 @@ def run_js(qin, qout):
       t = [str(diff_millis(t[i],t[i+1])) for i in xrange(len(t)-1)]
       
       qout.put(result + ';' + ';'.join(t) + '\n')
-    except:
-      print "PID=", os.getpid(),url, "TIMEOUT!!!!"
-      qout.put(url + ';timeout\n')
-      qin.put(task)
-      print "PUT:", task
-      print "PID=", os.getpid(), "QUEUE", qin.empty()
+    except Exception as e:
+      if len(e.args) > 0 and e.args[0] == "Unable to load requested page":
+        print "PID=", os.getpid(),url, "TIMEOUT!!!!"
+        qout.put(url + ';timeout\n')
+        qin.put(task)
+        print "PUT:", task
+        print "PID=", os.getpid(), "QUEUE", qin.empty()
+      else:
+        print "PID=", os.getpid(),url, "ERROR!!!"
+        qout.put(url + ';error\n')
 
   print "PID=", os.getpid(), "finish."
 
 
 if __name__ == '__main__':
-  input_file = "input.csv"
+  input_file = "../input.csv"
   output_file = "output.csv"
   threads = 4
 

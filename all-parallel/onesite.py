@@ -38,10 +38,15 @@ def main(args):
     #wrap()
     try:
       wrap()
-    except:
-      print "TIMEOUT", url
-      f.write(url + ';timeout\n')
-      run()
+    except Exception as e:
+      if len(e.args) > 0 and e.args[0] == "Unable to load requested page":
+        print "TIMEOUT", url
+        f.write(url + ';timeout\n')
+        run()
+      else:
+        print "ERROR", url
+        f.write(url + ';error\n')
+        
   
   run()
   f.close()
