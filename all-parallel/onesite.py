@@ -3,6 +3,8 @@ from ghost import Ghost
 from datetime import datetime
 from datetime import timedelta
 
+## Unomment out print & sys.stdout.flush() to log activities
+
 def diff_millis(t0,t1):
   dt = t1 - t0
   ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
@@ -13,15 +15,13 @@ def main(args):
   output_file = args[1]
   url = args[2]
   inputs = args[3:]
-  print args, "id=", os.getpid()
-  sys.stdout.flush()
-  count = [0]
+  # print args, "id=", os.getpid()
+  # sys.stdout.flush()
 
   def wrap():
-    count[0] = count[0] + 1
     t = []
     t.append(datetime.now())
-    ghost = Ghost(wait_timeout=10)
+    ghost = Ghost(wait_timeout=60)
     t.append(datetime.now())
     page, resources = ghost.open(url)
     t.append(datetime.now())
@@ -32,8 +32,8 @@ def main(args):
     t.append(datetime.now())
     
     t = [str(diff_millis(t[i],t[i+1])) for i in xrange(len(t)-1)]
-    print "TITLE:", result, "[", url, "]"
-    sys.stdout.flush()
+    # print "TITLE:", result, "[", url, "]"
+    # sys.stdout.flush()
     return result + ';' + ';'.join(t) + '\n'
 
   def run():
@@ -41,26 +41,20 @@ def main(args):
       return wrap()
     except Exception as e:
       if len(e.args) > 0 and e.args[0] == "Unable to load requested page":
-        print "TIMEOUT:", url
-        sys.stdout.flush()
-        if count[0] < 5:
-          f = open(output_file, 'a')
-          f.write(url + ';timeout\n')
-          f.close()
-          return run()
-        else:
-          return url + ';give up\n'
+        # print "TIMEOUT:", url
+        # sys.stdout.flush()
+        return url + ';timeout\n'
       else:
-        print "ERROR:", url
-        sys.stdout.flush()
+        # print "ERROR:", url
+        # sys.stdout.flush()
         return url + ';error\n'
         
   row = run()
   f = open(output_file, 'a')
   f.write(row)
   f.close()
-  print "id=", os.getpid(), "finish (onesite)."
-  sys.stdout.flush()
+  # print "id=", os.getpid(), "finish (onesite)."
+  # sys.stdout.flush()
   
 
 if __name__ == "__main__":

@@ -1,10 +1,11 @@
 function foo() {
-    var link = $('a:first()');
-    // var link = $('a:eq(3)');
+    var link = $('a:eq(3)');
+    // return link.html();
+    var link = $('a:eq(3)');
     if (link){
-	link.click();
+        link.click();
     }
     else{
-	return "no link";
+        return "no link";
     }
-}
+};

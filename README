@@ -1,0 +1,8 @@
+########################### Timing Benchmarks ############################
+Create 'out' directory under 'all-parallel' for output csv files, and run
+sh all-parallel/run.sh
+
+The total execution time is reported in all-parallel/out/procX.time
+
+########################### Reloading Page ############################
+python scratch/interactive.py
