@@ -25,7 +25,9 @@ def main(args):
     t.append(datetime.now())
     page, resources = ghost.open(url)
     t.append(datetime.now())
-    code = open(js_func + '.js','r').read()
+    f = open(js_func + '.js','r')
+    code = f.read()
+    f.close()
     mycode = code + js_func + '(\"' + '\",\"'.join(inputs) + '\")'
     t.append(datetime.now())
     result, resources = ghost.evaluate(mycode)
